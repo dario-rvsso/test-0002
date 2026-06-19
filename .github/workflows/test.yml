@@ -1,4 +1,4 @@
-name: Test project
+name: Test and Deploy project
 on: push
 jobs:
   test:
@@ -16,4 +16,21 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
+  deploy:
+    runs-on: ubuntu-letest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Clean workspace
+        run: git clean -xfd
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Deploy project
+        run: echo "Deploying..."
 
